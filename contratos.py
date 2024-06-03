@@ -14,7 +14,13 @@ records = cursor.fetchall()
 df = pd.read_sql_query(query, conn)
 conn.close()
 
-columnas = ['Id_rol', 'nombre_completo', 'profesion', 'rut', 'residencia','fecha_ingreso', 'nacionalidad', 'fecha_de_nacimiento', 'id_salarios','Rol', 'Sueldo']
+columnas = ['fecha_ingreso', 'residencia', 'rut', 'nombre_completo', 'nacionalidad','fecha_de_nacimiento', 'profesion', 'fecha_de_nacimiento', 'id_rol','Rol', 'Sueldo']
 df = pd.DataFrame(records, columns=columnas)
 
-print(df)
+def personas(df, persona_id):
+    personas_dt = df.iloc[int(persona_id)-1]
+    return personas_dt
+
+persona_id = input('Ingrese el id de la persona: ')
+personas_dt = personas(df, persona_id)
+print(personas_dt)
