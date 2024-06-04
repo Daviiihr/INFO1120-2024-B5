@@ -1,6 +1,8 @@
 import sqlite3
 import pandas as pd
 from docx import Document
+import word_gen as wd
+import data as dt
 
 conn = sqlite3.connect('db_personas.db')
 cursor = conn.cursor()
@@ -15,7 +17,7 @@ records = cursor.fetchall()
 df = pd.read_sql_query(query, conn)
 conn.close()
 
-columnas = ['fecha_ingreso', 'residencia', 'rut', 'nombre_completo', 'nacionalidad','fecha_de_nacimiento', 'profesion', 'fecha_de_nacimiento', 'id_rol','Rol', 'Sueldo']
+columnas = ['fecha_ingreso', 'residencia', 'rut', 'nombre_completo', 'nacionalidad','fecha_de_nacimiento', 'profesion', 'id_salarios', 'id_rol','Rol', 'Sueldo']
 df = pd.DataFrame(records, columns=columnas)
 
 def personas(df, persona_id):
@@ -25,3 +27,5 @@ def personas(df, persona_id):
 persona_id = input('Ingrese el id de la persona: ')
 personas_dt = personas(df, persona_id)
 print(personas_dt)
+word_contrato = dt.singular_data_to_contract(df, int(persona_id)-1)
+print(word_contrato)
