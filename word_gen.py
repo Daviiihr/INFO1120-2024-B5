@@ -70,3 +70,6 @@ def example_contract(date:str, rol:str, address:str, rut:str, full_name:str, nat
     paragraph = footer.paragraphs[0]
     run = paragraph.add_run('Caupolican 0455, Temuco, Chile, www.corpoindet.cl')
     run.add_picture("imagenes/footer1.png")
+    ruta_carpeta = 'contratos_carpeta'
+    ruta_completa = os.path.join(ruta_carpeta, f'{full_name}.docx')
+    document.save(ruta_completa)

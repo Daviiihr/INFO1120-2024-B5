@@ -30,10 +30,3 @@ personas_dt = personas(df, persona_id)
 print(personas_dt)
 word_contrato = dt.singular_data_to_contract(df, int(persona_id)-1)
 print(word_contrato)
-
-word_contrato = Document()
-nombre_completo = personas_dt['nombre_completo']
-ruta_carpeta = 'contratos_carpeta'
-nombre_archivo = f'{nombre_completo}.docx'
-ruta_completa = os.path.join(ruta_carpeta, nombre_archivo)
-word_contrato.save(ruta_completa)
