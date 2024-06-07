@@ -4,6 +4,7 @@ from docx import Document
 import word_gen as wd
 import data as dt
 import os
+import matplotlib.pyplot as plt
 
 conn = sqlite3.connect('db_personas.db')
 cursor = conn.cursor()
@@ -32,7 +33,7 @@ print(personas_dt)
 word_contrato = dt.singular_data_to_contract(df, int(persona_id)-1)
 print(word_contrato)
 
-def generar_multiples_contratos(df: pd.DataFrame, start: int, end: int):
+def generar_multiples_contratos(df: pd.DataFrame, start: int, end: int, word_contrato: int):
     sub_df = df.iloc[start:end]
     contratos = []
     for i in range(start, end):
@@ -46,3 +47,11 @@ word_contrato = dt.singular_data_to_contract(df, int(persona_id)-1)
 contratos = generar_multiples_contratos(df, start, end, word_contrato)
 for contrato in contratos:
     print(contrato)
+
+promedio_sueldo = df.groupby('Rol')['Sueldo'].mean()
+plt.figure(figsize=(10,5))
+promedio_sueldo.plot(kind='bar')
+plt.title('Promedio de sueldo por rol')
+plt.xlabel('profesion')
+plt.ylabel('Promedio Sueldo')
+plt.show()
