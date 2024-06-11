@@ -26,7 +26,16 @@ def personas(df, persona_id):
     personas_dt = df.iloc[int(persona_id)-1]
     return personas_dt
 
-persona_id = input('Ingrese el id de la persona: ')
+while True:
+    try:
+        persona_id = int(input("Ingrese el Id de la persona: "))
+        if persona_id < 1 or persona_id > len(df):
+            print(f"El Id de la persona debe estar entre 1 y {len(df)}")
+            continue
+        break
+    except ValueError:
+        print("Ingrese un numero valido")
+
 personas_dt = personas(df, persona_id)
 print(personas_dt)
 
@@ -34,15 +43,31 @@ word_contrato = dt.singular_data_to_contract(df, int(persona_id)-1)
 print(word_contrato)
 
 def generar_multiples_contratos(df: pd.DataFrame, start: int, end: int, word_contrato: int):
-    sub_df = df.iloc[start:end]
+    sub_df = df.iloc[start:end+1]
     contratos = []
-    for i in range(start, end):
+    for i in range(start, end+1):
         contrato = dt.singular_data_to_contract(df, i)
         contratos.append(contrato)
     return contratos
 
-start = int(input('Ingrese el id de la primera persona: '))
-end = int(input('Ingrese el id de la última persona: '))
+while True:
+    try:
+        start = int(input("Ingrese el Id de la primera persona: "))
+        end = int(input("Ingrese el Id de la última persona: "))
+        if start > end:
+            print("El Id de la primera persona debe ser menor al Id de la última persona")
+            continue
+        break
+    except ValueError:
+        print("Ingrese un numero valido")
+
+if df.empty:
+    raise ValueError("El DataFrame esta vacio")
+required_columns = ['profesion', 'Sueldo', 'nacionalidad']
+for columna in required_columns:
+    if columna not in df.columns:
+        raise ValueError(f"El DataFrame no tiene la columna '{columna}'.")
+
 word_contrato = dt.singular_data_to_contract(df, int(persona_id)-1)
 contratos = generar_multiples_contratos(df, start, end, word_contrato)
 for contrato in contratos:
